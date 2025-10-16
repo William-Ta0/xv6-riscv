@@ -41,3 +41,6 @@ void *memcpy(void *, const void *, uint);
 // umalloc.c
 void* malloc(uint);
 void free(void*);
+
+
+int calculate(int x, int y, char* op, int* result);

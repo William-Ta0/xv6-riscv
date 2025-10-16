@@ -240,21 +240,19 @@ copyinstr3(char *s)
     exit(1);
   }
 }
-
-// See if the kernel refuses to read/write user memory that the
-// application doesn't have anymore, because it returned it.
 void
-rwsbrk()
+rwsbrk(char *s)
 {
+  (void)s; // silence unused-parameter warning
+
   int fd, n;
-  
   uint64 a = (uint64) sbrk(8192);
 
   if(a == 0xffffffffffffffffLL) {
     printf("sbrk(rwsbrk) failed\n");
     exit(1);
   }
-  
+
   if ((uint64) sbrk(-8192) ==  0xffffffffffffffffLL) {
     printf("sbrk(rwsbrk) shrink failed\n");
     exit(1);
@@ -267,7 +265,7 @@ rwsbrk()
   }
   n = write(fd, (void*)(a+4096), 1024);
   if(n >= 0){
-    printf("write(fd, %p, 1024) returned %d, not -1\n", (void*)a+4096, n);
+    printf("write(fd, %p, 1024) returned %d, not -1\n", (void*)(a+4096), n);
     exit(1);
   }
   close(fd);
@@ -280,11 +278,11 @@ rwsbrk()
   }
   n = read(fd, (void*)(a+4096), 10);
   if(n >= 0){
-    printf("read(fd, %p, 10) returned %d, not -1\n", (void*)a+4096, n);
+    printf("read(fd, %p, 10) returned %d, not -1\n", (void*)(a+4096), n);
     exit(1);
   }
   close(fd);
-  
+
   exit(0);
 }
 

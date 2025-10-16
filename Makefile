@@ -1,3 +1,6 @@
+include proj1/kernel/Makefile
+include proj1/user/Makefile
+
 K=kernel
 U=user
 
@@ -139,6 +142,9 @@ UPROGS=\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
+	$U/_calc\
+	$U/_calctest\
+	$U/_your-test\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
